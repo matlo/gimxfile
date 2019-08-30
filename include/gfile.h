@@ -29,6 +29,10 @@ wchar_t * gfile_utf8_to_utf16le(const char * inbuf);
 char * gfile_utf16le_to_utf8(const wchar_t * inbuf);
 #endif
 
+#ifdef __linux__
+int gfile_makeown(const char *path);
+#endif
+
 FILE * gfile_fopen(const char *path, const char *mode);
 
 #ifdef WIN32

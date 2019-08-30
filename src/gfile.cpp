@@ -9,9 +9,9 @@
 #include <string.h>
 
 #ifndef WIN32
-#include <pwd.h> //to get the homedir
+#include <pwd.h> //to get the homedir + uid and gid
 #include <sys/types.h> //to get the homedir
-#include <unistd.h> //to get the homedir
+#include <unistd.h> //to get the homedir + chown
 #else
 #undef NTDDI_VERSION
 #define NTDDI_VERSION NTDDI_VERSION_FROM_WIN32_WINNT(NTDDI_VISTA)
@@ -59,6 +59,16 @@ char * gfile_utf16le_to_utf8(const wchar_t * inbuf)
   }
 
   return outbuf;
+}
+#endif
+
+#ifdef __linux__
+int gfile_makeown(const char *path) {
+    int ret = chown(path, getpwuid(getuid())->pw_uid, getpwuid(getuid())->pw_gid);
+    if (ret < 0) {
+        PRINT_ERROR_ERRNO("chown")
+    }
+    return ret;
 }
 #endif
 
@@ -156,7 +166,7 @@ char * gfile_homedir() {
     wchar_t * path = NULL;
     if(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &path))
     {
-      PRINT_ERROR_OTHER("SHGetKnownFolderPath failed");
+      PRINT_ERROR_OTHER("SHGetKnownFolderPath failed")
       return NULL;
     }
     char * homedir = gfile_utf16le_to_utf8(path);
