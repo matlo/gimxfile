@@ -66,7 +66,7 @@ char * gfile_utf16le_to_utf8(const wchar_t * inbuf)
 int gfile_makeown(const char *path) {
     int ret = chown(path, getpwuid(getuid())->pw_uid, getpwuid(getuid())->pw_gid);
     if (ret < 0) {
-        PRINT_ERROR_ERRNO("chown")
+        PRINT_ERROR_ERRNO("chown");
     }
     return ret;
 }
@@ -166,7 +166,7 @@ char * gfile_homedir() {
     wchar_t * path = NULL;
     if(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &path))
     {
-      PRINT_ERROR_OTHER("SHGetKnownFolderPath failed")
+      PRINT_ERROR_OTHER("SHGetKnownFolderPath failed");
       return NULL;
     }
     char * homedir = gfile_utf16le_to_utf8(path);
