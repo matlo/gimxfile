@@ -99,7 +99,7 @@ int gfile_remove(const char *path) {
 }
 
 char * gfile_tempdir() {
-    return strdup("/tmp");
+    return strdup("/tmp/");
 }
 
 char * gfile_name(GFILE_DIRENT *dirent) {
