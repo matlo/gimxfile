@@ -13,10 +13,6 @@
 #include <sys/types.h> //to get the homedir
 #include <unistd.h> //to get the homedir + chown
 #else
-#undef NTDDI_VERSION
-#define NTDDI_VERSION NTDDI_VERSION_FROM_WIN32_WINNT(NTDDI_VISTA)
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 #include <shlobj.h> //to get the homedir
 #include <knownfolders.h>
 #include <objbase.h>
